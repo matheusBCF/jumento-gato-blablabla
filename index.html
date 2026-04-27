@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background Animation</title>
+    <style>
+        /* 1. Fundo Cinza Escuro e Reset */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1a1a1a; /* Cinza escuro */
+            overflow: hidden; /* Evita barras de rolagem */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* 2. Container do Texto Central */
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10; /* Garante que o texto fique na frente dos quadrados */
+        }
+
+        .line {
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            margin: 10px 0;
+        }
+
+        h1 {
+            color: white;
+            font-size: 3rem;
+            letter-spacing: 5px;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        /* 3. Estilo dos Quadrados Animados */
+        .square {
+            position: absolute;
+            bottom: -50px; /* Começa abaixo da tela */
+            background-color: white;
+            opacity: 1;
+            pointer-events: none; /* Garante que não interfiram em cliques */
+            animation: moveUp 10s linear infinite;
+        }
+
+        /* 4. Animação: Subir, Girar Anti-horário e Desaparecer */
+        @keyframes moveUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-110vh) rotate(-360deg); /* Sentido anti-horário */
+                opacity: 0; /* Fica transparente no topo */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="line"></div>
+        <h1>Background Animation</h1>
+        <div class="line"></div>
+    </div>
+
+    <script>
+        function createSquare() {
+            const square = document.createElement('div');
+            square.classList.add('square');
+
+            // Tamanho aleatório entre 20px e 50px
+            const size = Math.random() * 30 + 20 + 'px';
+            square.style.width = size;
+            square.style.height = size;
+
+            // Posição horizontal aleatória
+            square.style.left = Math.random() * 100 + 'vw';
+
+            // Duração da animação aleatória para não subirem todos juntos
+            const duration = Math.random() * 5 + 5 + 's';
+            square.style.animationDuration = duration;
+
+            document.body.appendChild(square);
+
+            // Remove o elemento após a animação para não sobrecarregar a memória
+            setTimeout(() => {
+                square.remove();
+            }, 10000);
+        }
+
+        // Cria um novo quadrado a cada 300 milissegundos
+        setInterval(createSquare, 300);
+    </script>
+</body>
+</html>
